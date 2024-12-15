@@ -20,6 +20,16 @@ load_dotenv()
 api_key = os.environ.get("Your_API_Key")
 base_weather_url = str(f"http://api.openweathermap.org/data/2.5/weather?")
 complete_weather_url = base_weather_url + "lat=" + location_data[0] + "&lon=" + location_data[1] + "&appid=" + api_key
+
+## Takes the weather and coverts JSON data to python dicts, which are for some reason nested.
 response = requests.get(complete_weather_url)
 weather = response.json()
-print(weather)
+main_weather = weather["main"]
+
+if main_weather["humidity"] >= 80 :
+    print("Wow! The humidity in your region is above really high! Go outside.")
+elif main_weather["humidity"] < 80 and main_weather["humidity"] >= 60 :
+    print("The humidity is 60 or above. Could be higher. Go outside.")
+else :
+    print("The humidity is less than 60... BUMMER!")
+
